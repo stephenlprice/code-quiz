@@ -17,10 +17,25 @@ $(document).ready(function() {
             answer1: "JavaScript", answer2: "terminal/bash", answer3: "for loops", answer4: "console.log", correct: "console.log"}
     };
 
-    function startQuiz() {
-
+    function init() {
+        content.append( /*html*/ `
+        <h1>Coding Quiz Challenge</h1><br>
+        <p><strong><i>Are you ready to test your knowledge of web development?</i></strong></p><br>
+        <p style="text-align: justify;">When you start, a timer will set off and you will be presented 
+        with your first question. If you answer correctly you continue to the next question. Incorrect 
+        answers will substract time off the clock. If you answer all questions or if the timer reaches 
+        zero, the <strong>game is over.</strong>
+        </p><br>
+        <button id="startBtn" type="button" class="btn btn-primary btn-lg">Start Quiz</button>
+        `);
     }
 
+    function startQuiz() {
+        content.append();
+    }
+
+    // Call functions
+    init();
 
     // Event handlers
     startBtn.on("click", startQuiz);
