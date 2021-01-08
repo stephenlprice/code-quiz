@@ -35,11 +35,24 @@ $(document).ready(function() {
     // DOM elements
     var startBtn = $("#startBtn");
     var timeOut = 1000;
+    var timer = 25;
+    var score = 0;
 
 
     // When a user click on Start Game, load the first question randomly.
     function startQuiz() {
         q1();
+        var chrono = setInterval(stopwatch, 1000);
+
+        function stopwatch() {
+            timer--;
+            console.log("seconds left: " + timer);
+    
+            if (timer === 0){
+                clearInterval(chrono);
+                gameOver();
+            }
+        }
     }
 
     function q1(){
@@ -222,11 +235,11 @@ $(document).ready(function() {
             if (b.target && b.target.nodeName == "BUTTON") {
                 if (this.textContent == correct) {
                     success();
-                    // setTimeout(q2, timeOut);
+                    setTimeout(gameOver, timeOut);
                 }
                 else {
                     failure();
-                    // setTimeout(q2, timeOut);
+                    setTimeout(gameOver, timeOut);
                 }
             }
         });
@@ -239,6 +252,8 @@ $(document).ready(function() {
                 Your Answer is Correct!
             </div>
         `);
+        score = score + 10;
+        console.log("Score: " + score);
     }
 
     function failure() {
@@ -248,6 +263,18 @@ $(document).ready(function() {
                 Your Answer is Wrong!
             </div>
         `);
+        timer = timer - 2.5;
+    }
+
+    function gameOver() {
+        content.empty();
+        content.append( /*html*/ `
+            <br><br>
+            <div class="alert alert-primary" role="alert">
+                Game Over!
+            </div>
+        `);
+        timer = 25;
     }
 
     // Event handlers
