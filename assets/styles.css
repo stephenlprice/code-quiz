@@ -1,0 +1,15 @@
+body {
+    padding: 1em;
+}
+
+/* Styles the content section where we load content */
+#content {
+    text-align: center;
+    padding: 1em;
+}
+
+/* Styles the gameOver section with more padding when game ends */
+#gameOver {
+    text-align: center;
+    padding: 1.5em;
+}
