@@ -37,10 +37,8 @@ $(document).ready(function() {
     function startQuiz() {
         function randomizer() {
             ranQ = "q" + Math.floor(Math.random() * 5 + 1);
-            if (questions.children == ranQ) {
-                
-            }
-            questionLoader();
+            var question = questions.ranQ;
+            questionLoader(question);
         }
         randomizer();
     }
