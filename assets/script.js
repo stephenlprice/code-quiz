@@ -35,12 +35,23 @@ $(document).ready(function() {
     var startBtn = $("#startBtn");
 
     function startQuiz() {
+        function randomizer() {
+            ranQ = "q" + Math.floor(Math.random() * 5 + 1);
+            if (questions.children == ranQ) {
+                
+            }
+            questionLoader();
+        }
+        randomizer();
+    }
+
+    function questionLoader() {
         content.empty();
 
         content.append( /*html*/ `
         <h1>Commonly used data types DO NOT include:</h1><br>
         <div id="answers" class="container">
-            <div class="class row">
+            <div id="answer-buttons" class="class row">
                 <div class="div col-12 col-sm-6 col-md-3 my-3">
                     <button type="button" class="btn btn-outline-primary btn-lg">strings</button>
                 </div>
@@ -57,6 +68,12 @@ $(document).ready(function() {
             <p id="message"></p>
         </div>
         `);
+
+        function evaluator() {
+            // if (this.text )
+        }
+
+        $("#answer-buttons").on("click", evaluator);
     }
 
     // Event handlers
