@@ -15,6 +15,13 @@ var questions = {
         answer1: "JavaScript", answer2: "terminal/bash", answer3: "for loops", answer4: "console.log", correct: "console.log"}
 };
 
+// Stores player scores
+var highScores = { players : [
+    {initials: "sp", score: 50},
+    {initials: "tv", score: 20}
+]};
+
+// Initializes the page
 function init() {
     content.append( /*html*/ `
         <h1>Coding Quiz Challenge</h1><br>
@@ -31,16 +38,18 @@ function init() {
 
 init();
 
+// Initializes functions after page load
 $(document).ready(function() {
+    
     // DOM elements
     var startBtn = $("#startBtn");
     var timeOut = 1000;
-    var timer = 25;
+    var timer = 0;
     var score = 0;
 
-
-    // When a user click on Start Game, load the first question randomly.
+    // When a user click on Start Game load the first question, start the timer and track it.
     function startQuiz() {
+        timer = 15;
         q1();
         var chrono = setInterval(stopwatch, 1000);
 
@@ -48,13 +57,14 @@ $(document).ready(function() {
             timer--;
             console.log("seconds left: " + timer);
     
-            if (timer === 0){
+            if (timer <= 0 || timer === 0){
                 clearInterval(chrono);
                 gameOver();
             }
         }
     }
 
+    // First question
     function q1(){
         content.empty();
         var correct = "alerts";
@@ -93,6 +103,7 @@ $(document).ready(function() {
         });
     }
 
+    // Second question
     function q2(){
         content.empty();
         var correct = "parentheses";
@@ -131,6 +142,7 @@ $(document).ready(function() {
         });
     }
 
+    // Third question
     function q3(){
         content.empty();
         var correct = "all of the above";
@@ -169,6 +181,7 @@ $(document).ready(function() {
         });
     }
 
+    // Fourth question
     function q4(){
         content.empty();
         var correct = "quotes";
@@ -207,6 +220,7 @@ $(document).ready(function() {
         });
     }
 
+    // Fifth question
     function q5(){
         content.empty();
         var correct = "console.log";
@@ -245,6 +259,7 @@ $(document).ready(function() {
         });
     }
 
+    // Success message and score tracking
     function success() {
         content.append( /*html*/ `
             <br><br>
@@ -256,6 +271,7 @@ $(document).ready(function() {
         console.log("Score: " + score);
     }
 
+    // Failure message and deducts time
     function failure() {
         content.append( /*html*/ `
             <br><br>
@@ -266,15 +282,68 @@ $(document).ready(function() {
         timer = timer - 2.5;
     }
 
+    // Ends the game, sets time to 0.
     function gameOver() {
         content.empty();
         content.append( /*html*/ `
-            <br><br>
-            <div class="alert alert-primary" role="alert">
-                Game Over!
-            </div>
+            <section id="gameOver">
+                <br><br>
+                <div class="alert alert-primary" role="alert">
+                    Game Over!
+                </div><br><br>
+                <h2>Your Final Score is: ${score}</h2><br><br>
+                <p>Submit your initials to save your score</p>
+                <div class="row input-group input-group-lg">
+                    <span class="col-12 col-md-3 input-group-text">First and last initials:</span>
+                    <input id="fn" type="col-12 col-md-3 text" aria-label="First name" class="form-control">
+                    <input id="ln" type="col-12 col-md-3 text" aria-label="Last name" class="form-control">
+                    <button type="submit" class="col-12 col-md-3 btn btn-primary">Submit</button>
+                </div>
+            </section> 
         `);
-        timer = 25;
+        timer = 0;
+        var fn = "";
+        var ln = "";
+
+        // Add initials and score to highscores
+        $("#fn").on("input", function(){
+            fn = this.value;
+        });
+
+        $("#ln").on("input", function(){
+            ln = this.value;
+        });
+
+        $(":button").on("click", function(b) {
+            if (b.target && b.target.nodeName == "BUTTON") {
+                var ini = fn + ln;
+                highScores.players.push(
+                    {initials: ini , score}
+                );
+                
+                // Adds a highscores button for visibility
+                content.append( /*html*/ `
+                    <button id="highScores" type="button" class="btn btn-primary btn-lg">Go To High Scores</button>
+                `);
+
+                $("#highScores").on("click", function(){
+                    content.empty();
+                    content.append( /*html*/ `
+                        <h1>High Scores</h1><br><br>
+                        <ul class="list-group"></ul>
+                    `);
+                    for (player in highScores.players) {
+                        var pers = highScores.players[player];
+                        var hs = pers.initials;
+                        var sco =  pers.score;
+                        var playSco = "Player: " + hs + ", Score: " + sco;
+                        $("ul").append( /*html*/ `
+                            <li class="list-group-item">${playSco}</li>
+                        `);    
+                    }
+                });
+            }
+        });
     }
 
     // Event handlers
