@@ -17,15 +17,16 @@ var questions = {
 
 function init() {
     content.append( /*html*/ `
-    <h1>Coding Quiz Challenge</h1><br>
-    <p><strong><i>Are you ready to test your knowledge of web development?</i></strong></p><br>
-    <p style="text-align: justify;">When you start, a timer will set off and you will be presented 
-    with your first question. If you answer correctly you continue to the next question. Incorrect 
-    answers will substract time off the clock. If you answer all questions or if the timer reaches 
-    zero, the <strong>game is over.</strong>
-    </p><br>
-    <button id="startBtn" type="button" class="btn btn-primary btn-lg">Start Quiz</button>
+        <h1>Coding Quiz Challenge</h1><br>
+        <p><strong><i>Are you ready to test your knowledge of web development?</i></strong></p><br>
+        <p style="text-align: justify;">When you start, a timer will set off and you will be presented 
+        with your first question. If you answer correctly you continue to the next question. Incorrect 
+        answers will substract time off the clock. If you answer all questions or if the timer reaches 
+        zero, the <strong>game is over.</strong>
+        </p><br>
+        <button id="startBtn" type="button" class="btn btn-primary btn-lg">Start Quiz</button>
     `);
+
 }
 
 init();
@@ -34,52 +35,75 @@ $(document).ready(function() {
     // DOM elements
     var startBtn = $("#startBtn");
 
+
     // When a user click on Start Game, load the first question randomly.
     function startQuiz() {
-        function randomizer() {
-            var ranQ = Math.floor(Math.random() * 5 + 1);
-            var qObj = questions;
-            for (question in qObj) {
-                if (Object.keys(qObj).indexOf(question) == ranQ) {
-                    content.empty();
-                    content.append( /*html*/ `
-                        <h1>${JSON.stringify(qObj[question].question)}</h1><br>
-                        <div id="answers" class="container">
-                            <div id="answer-buttons" class="class row">
-                                <div class="div col-12 col-sm-6 col-md-3 my-3">
-                                    <button type="button" class="btn btn-outline-primary btn-lg">${JSON.stringify(qObj[question].answer1)}</button>
-                                </div>
-                                <div class="div col-12 col-sm-6 col-md-3 my-3">
-                                    <button type="button" class="btn btn-outline-primary btn-lg">${JSON.stringify(qObj[question].answer2)}</button>
-                                </div>
-                                <div class="div col-12 col-sm-6 col-md-3 my-3">
-                                    <button type="button" class="btn btn-outline-primary btn-lg">${JSON.stringify(qObj[question].answer3)}</button>
-                                </div>
-                                <div class="div col-12 col-sm-6 col-md-3 my-3">
-                                    <button type="button" class="btn btn-outline-primary btn-lg">${JSON.stringify(qObj[question].answer4)}</button>
-                                </div>
-                            </div>
-                            <p id="message"></p>
-                        </div>
-                    `);
-                    // delete qObj.question;
-                }
-            }
-        }
         randomizer();
     }
 
-    function questionLoader(questionLoad) {
-        content.empty();
+    function randomizer() {
+        // Separate store for the questions object
+        var qObj = questions;
+        var ranQ = Math.floor(Math.random() * 5 + 1);
+        for (question in qObj) {
+            if (Object.keys(qObj).indexOf(question) === ranQ) {
+                content.empty();
+                var answer = qObj[question].correct;
+                content.append( /*html*/ `
+                    <h1>${qObj[question].question}</h1><br>
+                    <div id="answers" class="container">
+                        <div id="answer-buttons" class="class row">
+                            <div class="div col-12 col-sm-6 col-md-3 my-3">
+                                <button type="button" class="btn btn-outline-primary btn-lg">${qObj[question].answer1}</button>
+                            </div>
+                            <div class="div col-12 col-sm-6 col-md-3 my-3">
+                                <button type="button" class="btn btn-outline-primary btn-lg">${qObj[question].answer2}</button>
+                            </div>
+                            <div class="div col-12 col-sm-6 col-md-3 my-3">
+                                <button type="button" class="btn btn-outline-primary btn-lg">${qObj[question].answer3}</button>
+                            </div>
+                            <div class="div col-12 col-sm-6 col-md-3 my-3">
+                                <button type="button" class="btn btn-outline-primary btn-lg">${qObj[question].answer4}</button>
+                            </div>
+                        </div>
+                        <p id="message"></p>
+                    </div>
+                `);
 
+                $(":button").on("click", function(b){
+                    if (b.target && b.target.nodeName == "BUTTON") {
+                        if (this.textContent == answer) {
+                            $("#message").text("Your Answer is Correct!");
+                            setTimeout(delete qObj[question], 100);
+                            setTimeout(randomizer(), 100); 
+                        }
+                        else {
+                            $("#message").text("Your Answer is Incorrect!");
+                            setTimeout(delete qObj[question], 100);
+                            setTimeout(randomizer(), 100);
+                        }
+                    }
 
-        function evaluator() {
-            // if (this.text )
+                    
+                });
+
+            }
         }
-
-        $("#answer-buttons").on("click", evaluator);
     }
 
     // Event handlers
     startBtn.on("click", startQuiz);
 });
+
+// function evaluator(answer) {
+//     if ($(":button").textContent === answer) {
+//         $("#message").text("Your Answer is Correct!");
+//         setTimeout(delete qObj[question], 100);
+//         setTimeout(randomizer(), 100); 
+//     }
+//     else {
+//         $("#message").text("Your Answer is Incorrect!");
+//         setTimeout(delete qObj[question], 100);
+//         setTimeout(randomizer(), 100);
+//     }
+// }
