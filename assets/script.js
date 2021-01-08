@@ -49,7 +49,7 @@ $(document).ready(function() {
 
     // When a user click on Start Game load the first question, start the timer and track it.
     function startQuiz() {
-        timer = 15;
+        timer = 20;
         q1();
         var chrono = setInterval(stopwatch, 1000);
 
@@ -59,7 +59,7 @@ $(document).ready(function() {
     
             if (timer <= 0 || timer === 0){
                 clearInterval(chrono);
-                gameOver();
+                setTimeout(gameOver(), 3000);
             }
         }
     }
@@ -301,7 +301,6 @@ $(document).ready(function() {
                 </div>
             </section> 
         `);
-        timer = 0;
         var fn = "";
         var ln = "";
 
