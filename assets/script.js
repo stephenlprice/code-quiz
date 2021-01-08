@@ -38,29 +38,31 @@ $(document).ready(function() {
     function startQuiz() {
         function randomizer() {
             var ranQ = Math.floor(Math.random() * 5 + 1);
-            for (question in questions) {
-                if (Object.keys(questions).indexOf(question) == ranQ) {
+            var qObj = questions;
+            for (question in qObj) {
+                if (Object.keys(qObj).indexOf(question) == ranQ) {
                     content.empty();
                     content.append( /*html*/ `
-                        <h1>${JSON.stringify(questions[question].question)}</h1><br>
+                        <h1>${JSON.stringify(qObj[question].question)}</h1><br>
                         <div id="answers" class="container">
                             <div id="answer-buttons" class="class row">
                                 <div class="div col-12 col-sm-6 col-md-3 my-3">
-                                    <button type="button" class="btn btn-outline-primary btn-lg">strings</button>
+                                    <button type="button" class="btn btn-outline-primary btn-lg">${JSON.stringify(qObj[question].answer1)}</button>
                                 </div>
                                 <div class="div col-12 col-sm-6 col-md-3 my-3">
-                                    <button type="button" class="btn btn-outline-primary btn-lg">booleans</button>
+                                    <button type="button" class="btn btn-outline-primary btn-lg">${JSON.stringify(qObj[question].answer2)}</button>
                                 </div>
                                 <div class="div col-12 col-sm-6 col-md-3 my-3">
-                                    <button type="button" class="btn btn-outline-primary btn-lg">alerts</button>
+                                    <button type="button" class="btn btn-outline-primary btn-lg">${JSON.stringify(qObj[question].answer3)}</button>
                                 </div>
                                 <div class="div col-12 col-sm-6 col-md-3 my-3">
-                                    <button type="button" class="btn btn-outline-primary btn-lg">numbers</button>
+                                    <button type="button" class="btn btn-outline-primary btn-lg">${JSON.stringify(qObj[question].answer4)}</button>
                                 </div>
                             </div>
                             <p id="message"></p>
                         </div>
                     `);
+                    // delete qObj.question;
                 }
             }
         }
