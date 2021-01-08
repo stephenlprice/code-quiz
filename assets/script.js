@@ -34,38 +34,42 @@ $(document).ready(function() {
     // DOM elements
     var startBtn = $("#startBtn");
 
+    // When a user click on Start Game, load the first question randomly.
     function startQuiz() {
         function randomizer() {
-            ranQ = "q" + Math.floor(Math.random() * 5 + 1);
-            var question = questions.ranQ;
-            questionLoader(question);
+            var ranQ = Math.floor(Math.random() * 5 + 1);
+            for (question in questions) {
+                if (Object.keys(questions).indexOf(question) == ranQ) {
+                    content.empty();
+                    content.append( /*html*/ `
+                        <h1>${JSON.stringify(questions[question].question)}</h1><br>
+                        <div id="answers" class="container">
+                            <div id="answer-buttons" class="class row">
+                                <div class="div col-12 col-sm-6 col-md-3 my-3">
+                                    <button type="button" class="btn btn-outline-primary btn-lg">strings</button>
+                                </div>
+                                <div class="div col-12 col-sm-6 col-md-3 my-3">
+                                    <button type="button" class="btn btn-outline-primary btn-lg">booleans</button>
+                                </div>
+                                <div class="div col-12 col-sm-6 col-md-3 my-3">
+                                    <button type="button" class="btn btn-outline-primary btn-lg">alerts</button>
+                                </div>
+                                <div class="div col-12 col-sm-6 col-md-3 my-3">
+                                    <button type="button" class="btn btn-outline-primary btn-lg">numbers</button>
+                                </div>
+                            </div>
+                            <p id="message"></p>
+                        </div>
+                    `);
+                }
+            }
         }
         randomizer();
     }
 
-    function questionLoader() {
+    function questionLoader(questionLoad) {
         content.empty();
 
-        content.append( /*html*/ `
-        <h1>Commonly used data types DO NOT include:</h1><br>
-        <div id="answers" class="container">
-            <div id="answer-buttons" class="class row">
-                <div class="div col-12 col-sm-6 col-md-3 my-3">
-                    <button type="button" class="btn btn-outline-primary btn-lg">strings</button>
-                </div>
-                <div class="div col-12 col-sm-6 col-md-3 my-3">
-                    <button type="button" class="btn btn-outline-primary btn-lg">booleans</button>
-                </div>
-                <div class="div col-12 col-sm-6 col-md-3 my-3">
-                    <button type="button" class="btn btn-outline-primary btn-lg">alerts</button>
-                </div>
-                <div class="div col-12 col-sm-6 col-md-3 my-3">
-                    <button type="button" class="btn btn-outline-primary btn-lg">numbers</button>
-                </div>
-            </div>
-            <p id="message"></p>
-        </div>
-        `);
 
         function evaluator() {
             // if (this.text )
